@@ -1,6 +1,13 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿html{
+	min-height: 100%;
+}
+body{
+    padding: 50px 0;
+	min-height: 100%;
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+	background: #cedce7;
+    background: linear-gradient(to bottom, #cedce7 0%,#596a72 100%); 
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +28,70 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.clearfix::after{
+    display: block;
+    clear:both;
+    content: "";
+}
+
+.box{
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.list-container{
+    margin: 30px 0;
+}
+
+.list-items{
+    float: left;
+    width: 300px;
+}
+
+.task-items{
+    margin-left: 300px;
+}
+
+.list-items select{
+    margin: 10px;
+}
+
+.task-items li{
+    list-style: none;
+    margin: 10px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0,0,0,.8);
+    border-radius: 4px;
+    background-clip: padding-box;
+    font-size: 18px;
+    font-weight: 500;
+    color: #A4A4A4;
+    vertical-align: middle;
+}
+
+.list-items ul{
+    font-size: 18px;
+    text-transform: uppercase;
+    background-color: azure;
+    margin: 10px;
+    padding: 10px 0;
+}
+
+.list-items li{
+    padding: 12px 10px 12px 30px;
+    list-style: none;
+    color: #A4A4A4;
+    cursor: pointer;
+}
+
+.list-items li:hover{
+    background-color: antiquewhite;
+}
+
+.list-items .active{
+    background: rgba(0, 0, 0, 0.5);
 }
