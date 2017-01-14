@@ -19,10 +19,11 @@
                 <li ng-repeat="task in data.tasks" 
                     ng-show="task.ListId == data.selectList || data.selectList == -1">
                     {{task.Name}}
+                    <i class="fa fa-trash-o fa-lg" ng-click="removeTask(task)"></i>
                 </li>
             </ul>
             <div class="tool-box">
-                <i class="fa fa-plus fa-4x" aria-hidden="true" ng-click="data.showTaskModal=true"></i>
+                <i class="fa fa-plus fa-3x" aria-hidden="true" ng-click="data.showTaskModal=true"></i>
             </div>
         </div>
     </div>

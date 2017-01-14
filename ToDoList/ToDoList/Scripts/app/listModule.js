@@ -16,12 +16,20 @@ app.factory('listService', ['$http', function ($http) {
             method: "GET"
         });
     };
-    //add task in list to database
+    //add task in list in database
     ListService.addTask = function (task) {
         return $http({
             url: 'api/TaskItems',
             data: task,
             method: "POST"
+        });
+    }
+    //remove task from list in database
+    ListService.removeTask = function (id) {
+        var apiUrl = 'api/TaskItems/' + id;
+        return $http({
+            url: apiUrl,
+            method: "DELETE"
         });
     }
 
@@ -51,8 +59,8 @@ app.controller("listCtrl", function ($scope, listService) {
     //add new task 
     $scope.addTask = function () {
         listService.addTask($scope.data.newTask)
-        .then(function (allLists) {
-            $scope.data.tasks.push($scope.data.newTask);
+        .then(function (response) {
+            $scope.data.tasks.push(response.data);
             $scope.data.newTask = {};
             $scope.data.showTaskModal = false;
         }); 
@@ -62,6 +70,15 @@ app.controller("listCtrl", function ($scope, listService) {
     $scope.cancelTask = function () {
         $scope.data.newTask = {};
         $scope.data.showTaskModal = false;
+    }
+
+    //remove selected task
+    $scope.removeTask = function (item) {
+        listService.removeTask(item.Id)
+        .then(function (ans) {
+            var index = $scope.data.tasks.indexOf(item);
+            $scope.data.tasks.splice(index, 1);
+        });
     }
 
     $scope.initialize();
