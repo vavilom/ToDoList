@@ -83,6 +83,8 @@ namespace ToDoList.Controllers
                 return BadRequest(ModelState);
             }
 
+            taskItem.Created = DateTime.Now;
+
             db.Tasks.Add(taskItem);
             db.SaveChanges();
 

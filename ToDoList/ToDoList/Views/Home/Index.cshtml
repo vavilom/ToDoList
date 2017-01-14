@@ -21,7 +21,32 @@
                     {{task.Name}}
                 </li>
             </ul>
+            <div class="tool-box">
+                <i class="fa fa-plus fa-4x" aria-hidden="true" ng-click="data.showTaskModal=true"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="backmodal" ng-show="data.showTaskModal">
+        <div class="todo-modal">
+            <h3>New task</h3>
+            <form>
+                <div>
+                    <input type="text" ng-model="data.newTask.Name" placeholder="Task name" />
+                </div>
+                <div>
+                    <select ng-model="data.newTask.ListId" class="select-dark">
+                        <option value="{{option.Id}}" ng-repeat="option in data.lists">
+                            {{option.Name}}
+                        </option>
+                    </select>
+                </div>
+            </form>
+            <button ng-click="addTask()">Add</button>
+            <button ng-click="cancelTask()">Cancel</button>
         </div>
     </div>
 </div>
+
+
 
