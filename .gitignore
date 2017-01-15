@@ -9,8 +9,12 @@
 *.dll.config
 *.cache
 *.suo
-*.mdf
-*.ldf
+###############################################
+# If you don`t neen database uncomments below #
+###############################################
+# *.mdf
+# *.ldf
+applicationhost.config
 # Include dlls if they’re in the NuGet packages directory
 !/packages/*/lib/*.dll
 !/packages/*/lib/*/*.dll
