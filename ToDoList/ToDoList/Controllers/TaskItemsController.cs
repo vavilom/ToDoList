@@ -74,6 +74,49 @@ namespace ToDoList.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //PUT: api/ExecuteItem/5
+        [HttpPut]
+        public IHttpActionResult ExecuteItem(int id, [FromBody]bool change)
+        {
+            if (!db.Tasks.Any(t => t.Id == id))
+            {
+                return BadRequest();
+            }
+
+            TaskItem task = db.Tasks.FirstOrDefault(t => t.Id == id);
+
+            if(task != null)
+            {
+                if (change)
+                {
+                    task.Finished = DateTime.Now;
+                }
+                else
+                {
+                    task.Finished = DateTime.MinValue;
+                }
+            }
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TaskItemExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
         // POST: api/TaskItems
         [ResponseType(typeof(TaskItem))]
         public IHttpActionResult PostTaskItem(TaskItem taskItem)

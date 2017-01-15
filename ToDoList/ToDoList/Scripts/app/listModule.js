@@ -34,6 +34,15 @@ app.factory('listService', ['$http', function ($http) {
         });
     }
 
+    ListService.executeTask = function (idTask, change) {
+        var apiUrl = 'api/TaskItems/ExecuteItem/' + idTask;
+        return $http({
+            url: apiUrl,
+            data: change,
+            method: "PUT"
+        });
+    }
+
     //add new list in database
     ListService.addList = function (list) {
         return $http({
@@ -59,8 +68,9 @@ app.controller("listCtrl", function ($scope, listService) {
     $scope.data = {
         selectList: -1,
         showTaskModal: false,
+        showFinished: false,
         newTask: {},
-        newList: {}
+        newList: {},
     };
 
     //receive all tasks and lists from server
@@ -68,6 +78,16 @@ app.controller("listCtrl", function ($scope, listService) {
         listService.getTasks()
         .success(function (allTasks) {
             $scope.data.tasks = allTasks.$values;
+
+            //initialize checkbox depend from date finish 
+            angular.forEach($scope.data.tasks, function (task) {
+                if (task.Finished === "0001-01-01T00:00:00") {
+                    task.Check = false;
+                }
+                else {
+                    task.Check = true;
+                }
+            });
         });
 
         listService.getLists()
@@ -124,6 +144,15 @@ app.controller("listCtrl", function ($scope, listService) {
 
             //select menu list all items
             $scope.data.selectList = -1;
+        });
+    }
+
+    $scope.checkDate = function (id) {
+        var task = $scope.data.tasks.filter(function (element, index) {
+            return (element.Id == id);
+        });
+        listService.executeTask(task[0].Id, task[0].Check).then(function (ans) {
+
         });
     }
 
