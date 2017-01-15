@@ -81,12 +81,7 @@ app.controller("listCtrl", function ($scope, listService) {
 
             //initialize checkbox depend from date finish 
             angular.forEach($scope.data.tasks, function (task) {
-                if (task.Finished === "0001-01-01T00:00:00") {
-                    task.Check = false;
-                }
-                else {
-                    task.Check = true;
-                }
+                task.Check = $scope.getDateCheck(task.Finished);
             });
         });
 
@@ -100,6 +95,8 @@ app.controller("listCtrl", function ($scope, listService) {
     $scope.addTask = function () {
         listService.addTask($scope.data.newTask)
         .then(function (response) {
+            var task = response.data;
+            task.Check = $scope.getDateCheck(task.Finished);
             $scope.data.tasks.push(response.data);
             $scope.data.newTask = {};
             $scope.data.showTaskModal = false;
@@ -154,6 +151,15 @@ app.controller("listCtrl", function ($scope, listService) {
         listService.executeTask(task[0].Id, task[0].Check).then(function (ans) {
 
         });
+    }
+
+    $scope.getDateCheck = function(date){
+        if (date === "0001-01-01T00:00:00") {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     //get from server and add all user items to view

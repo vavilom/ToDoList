@@ -1,60 +1,72 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Todo-scheduler";
 }
-<div ng-controller="listCtrl">
-    <div class="list-container clearfix box">
-        <div class="list-items">
-            <ul>
-                <li ng-class="{active: data.selectList == -1}" 
-                    ng-click="data.selectList = -1">All</li>
-                <li ng-class="{active: data.selectList == list.Id}" 
-                    ng-repeat="list in data.lists" 
-                    ng-click="data.selectList = list.Id">
-                    {{list.Name}}
-                    <i class="fa fa-trash-o fa-lg" ng-click="removeList(list)"></i>
-                </li>
-            </ul>
-            <div>
-                <input class="inputTextDark" type="text" ng-model="data.newList.Name" placeholder="Add new list..." />
-                <i class="fa fa-plus fa-2x" aria-hidden="true" ng-click="addList()"></i>
-            </div>
-        </div>
-        <div class="task-items">
-            <ul id="todoList">
-                <li ng-repeat="task in data.tasks" 
-                    ng-show="(task.ListId == data.selectList || data.selectList == -1) && (task.Check == false || data.showFinished == true)">
-                    <input type="checkbox" ng-model="task.Check" ng-change="checkDate(task.Id)"/>
-                    <span>{{task.Name}}</span>
-                    <i class="fa fa-trash-o fa-lg" ng-click="removeTask(task)"></i>
-                </li>
-            </ul>
-            <div class="tool-box">
-                <input type="checkbox" ng-model="data.showFinished" />
-                <i class="fa fa-plus fa-3x" aria-hidden="true" ng-click="data.showTaskModal=true"></i>
-            </div>
-        </div>
-    </div>
 
-    <div class="backmodal" ng-show="data.showTaskModal">
-        <div class="todo-modal">
-            <h3>New task</h3>
-            <form>
+@if (Request.IsAuthenticated)
+{
+    <div ng-controller="listCtrl">
+        <div class="list-container clearfix box">
+            <div class="list-items">
+                <ul>
+                    <li ng-class="{active: data.selectList == -1}"
+                        ng-click="data.selectList = -1">All</li>
+                    <li ng-class="{active: data.selectList == list.Id}"
+                        ng-repeat="list in data.lists"
+                        ng-click="data.selectList = list.Id">
+                        {{list.Name}}
+                        <i class="fa fa-trash-o fa-lg" ng-click="removeList(list)"></i>
+                    </li>
+                </ul>
                 <div>
-                    <input class="inputTextDark" type="text" ng-model="data.newTask.Name" placeholder="Task name" />
+                    <input class="inputTextDark" type="text" ng-model="data.newList.Name" placeholder="Add new list..." />
+                    <i class="fa fa-plus fa-2x" aria-hidden="true" ng-click="addList()"></i>
                 </div>
-                <div>
-                    <select ng-model="data.newTask.ListId" class="select-dark">
-                        <option value="{{option.Id}}" ng-repeat="option in data.lists">
-                            {{option.Name}}
-                        </option>
-                    </select>
+            </div>
+            <div class="task-items">
+                <ul id="todoList">
+                    <li ng-repeat="task in data.tasks"
+                        ng-show="(task.ListId == data.selectList || data.selectList == -1) && (task.Check == false || data.showFinished == true)">
+                        <input type="checkbox" ng-model="task.Check" ng-change="checkDate(task.Id)" />
+                        <span>{{task.Name}}</span>
+                        <i class="fa fa-trash-o fa-lg" ng-click="removeTask(task)"></i>
+                    </li>
+                </ul>
+                <div class="tool-box">
+                    <input type="checkbox" ng-model="data.showFinished" />
+                    <i class="fa fa-plus fa-3x" aria-hidden="true" ng-click="data.showTaskModal=true"></i>
                 </div>
-            </form>
-            <button class="buttonDark" ng-click="addTask()">Add</button>
-            <button class="buttonDark" ng-click="cancelTask()">Cancel</button>
+            </div>
+        </div>
+
+        <div class="backmodal" ng-show="data.showTaskModal">
+            <div class="todo-modal">
+                <h3>New task</h3>
+                <form>
+                    <div>
+                        <input class="inputTextDark" type="text" ng-model="data.newTask.Name" placeholder="Task name" />
+                    </div>
+                    <div>
+                        <select ng-model="data.newTask.ListId" class="select-dark">
+                            <option value="{{option.Id}}" ng-repeat="option in data.lists">
+                                {{option.Name}}
+                            </option>
+                        </select>
+                    </div>
+                </form>
+                <button class="buttonDark" ng-click="addTask()">Add</button>
+                <button class="buttonDark" ng-click="cancelTask()">Cancel</button>
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <h1>Please use registration</h1>
+}
+
+
+
 
 
 

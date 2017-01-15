@@ -1,36 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ToDoList.Models;
 
 namespace ToDoList.Controllers
 {
+    [Authorize]
     public class TaskItemsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private string _userId;
 
         public TaskItemsController() {
             db.Configuration.ProxyCreationEnabled = false;
+            _userId = User.Identity.GetUserId();
         }
 
         // GET: api/TaskItems
         public IQueryable<TaskItem> GetTasks()
         {
-            return db.Tasks;
+            return db.Tasks.Where(t => t.List.ApplicationUserId == _userId);
         }
 
         // GET: api/TaskItems/5
         [ResponseType(typeof(TaskItem))]
         public IHttpActionResult GetTaskItem(int id)
         {
-            TaskItem taskItem = db.Tasks.Find(id);
+            TaskItem taskItem = db.Tasks.FirstOrDefault(t => t.List.ApplicationUserId == _userId && t.Id == id);
             if (taskItem == null)
             {
                 return NotFound();
@@ -51,6 +52,11 @@ namespace ToDoList.Controllers
             if (id != taskItem.Id)
             {
                 return BadRequest();
+            }
+
+            if (!db.Tasks.Any(t => t.List.ApplicationUserId == _userId && t.Id == id))
+            {
+                return NotFound();
             }
 
             db.Entry(taskItem).State = EntityState.Modified;
@@ -83,7 +89,7 @@ namespace ToDoList.Controllers
                 return BadRequest();
             }
 
-            TaskItem task = db.Tasks.FirstOrDefault(t => t.Id == id);
+            TaskItem task = db.Tasks.FirstOrDefault(t => t.Id == id && t.List.ApplicationUserId == _userId);
 
             if(task != null)
             {
@@ -95,6 +101,10 @@ namespace ToDoList.Controllers
                 {
                     task.Finished = DateTime.MinValue;
                 }
+            }
+            else
+            {
+                return NotFound();
             }
 
             try
@@ -121,12 +131,17 @@ namespace ToDoList.Controllers
         [ResponseType(typeof(TaskItem))]
         public IHttpActionResult PostTaskItem(TaskItem taskItem)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || taskItem.ListId <= 0)
             {
                 return BadRequest(ModelState);
             }
 
             taskItem.Created = DateTime.Now;
+
+            if (!db.Lists.Any(l => l.ApplicationUserId == _userId && l.Id == taskItem.ListId))
+            {
+                return NotFound();
+            }
 
             db.Tasks.Add(taskItem);
             db.SaveChanges();

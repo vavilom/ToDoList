@@ -17,23 +17,25 @@ namespace ToDoList.Controllers
     public class ListsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private string _userId;
 
         public ListsController()
         {
             db.Configuration.ProxyCreationEnabled = false;
+            _userId = User.Identity.GetUserId();
         }
 
         // GET: api/Lists
         public IQueryable<List> GetLists()
         {
-            return db.Lists;
+            return db.Lists.Where(l => l.ApplicationUserId == _userId);
         }
 
         // GET: api/Lists/5
         [ResponseType(typeof(List))]
         public IHttpActionResult GetList(int id)
         {
-            List list = db.Lists.Find(id);
+            List list = db.Lists.FirstOrDefault(l => l.ApplicationUserId == _userId && l.Id == id);
             if (list == null)
             {
                 return NotFound();
@@ -56,7 +58,11 @@ namespace ToDoList.Controllers
                 return BadRequest();
             }
 
-            list.ApplicationUserId = User.Identity.GetUserId();
+            if(!db.Lists.Any(l => l.ApplicationUserId == _userId && l.Id == id))
+            {
+                return NotFound();
+            }
+
             db.Entry(list).State = EntityState.Modified;
 
             try
@@ -87,6 +93,7 @@ namespace ToDoList.Controllers
                 return BadRequest(ModelState);
             }
 
+            list.ApplicationUserId = _userId;
             db.Lists.Add(list);
             db.SaveChanges();
 
@@ -97,7 +104,7 @@ namespace ToDoList.Controllers
         [ResponseType(typeof(List))]
         public IHttpActionResult DeleteList(int id)
         {
-            List list = db.Lists.Find(id);
+            List list = db.Lists.FirstOrDefault(l => l.Id == id && l.ApplicationUserId == _userId);
             if (list == null)
             {
                 return NotFound();
