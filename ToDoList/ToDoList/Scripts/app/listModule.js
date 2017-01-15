@@ -92,15 +92,17 @@ app.controller("listCtrl", function ($scope, listService) {
     }
 
     //add new task 
-    $scope.addTask = function () {
-        listService.addTask($scope.data.newTask)
-        .then(function (response) {
-            var task = response.data;
-            task.Check = $scope.getDateCheck(task.Finished);
-            $scope.data.tasks.push(response.data);
-            $scope.data.newTask = {};
-            $scope.data.showTaskModal = false;
-        }); 
+    $scope.addTask = function (isValid) {
+        if (isValid) {
+            listService.addTask($scope.data.newTask)
+            .then(function (response) {
+                var task = response.data;
+                task.Check = $scope.getDateCheck(task.Finished);
+                $scope.data.tasks.push(response.data);
+                $scope.data.newTask = {};
+                $scope.data.showTaskModal = false;
+            });
+        }
     }
 
     //clear and hide task modal
@@ -119,12 +121,14 @@ app.controller("listCtrl", function ($scope, listService) {
     }
 
     //add new list
-    $scope.addList = function () {
-        listService.addList($scope.data.newList)
-        .then(function (response) {
-            $scope.data.lists.push(response.data);
-            $scope.data.newList = {};
-        });
+    $scope.addList = function (isValid) {
+        if (isValid) {
+            listService.addList($scope.data.newList)
+            .then(function (response) {
+                $scope.data.lists.push(response.data);
+                $scope.data.newList = {};
+            });
+        }
     }
 
     //remove selected list

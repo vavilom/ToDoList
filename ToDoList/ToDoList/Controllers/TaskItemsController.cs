@@ -126,7 +126,6 @@ namespace ToDoList.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-
         // POST: api/TaskItems
         [ResponseType(typeof(TaskItem))]
         public IHttpActionResult PostTaskItem(TaskItem taskItem)
@@ -153,7 +152,7 @@ namespace ToDoList.Controllers
         [ResponseType(typeof(TaskItem))]
         public IHttpActionResult DeleteTaskItem(int id)
         {
-            TaskItem taskItem = db.Tasks.Find(id);
+            TaskItem taskItem = db.Tasks.FirstOrDefault(t => t.Id == id && t.List.ApplicationUserId == _userId);
             if (taskItem == null)
             {
                 return NotFound();

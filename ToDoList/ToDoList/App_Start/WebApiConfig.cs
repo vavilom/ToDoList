@@ -13,8 +13,7 @@ namespace ToDoList
 
             config.Routes.MapHttpRoute(
                 name: "ExecuteItem",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{action}/{id}"
             );
 
             config.Routes.MapHttpRoute(

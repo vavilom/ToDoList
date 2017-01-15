@@ -2,12 +2,17 @@
 	min-height: 100%;
 }
 body{
-    padding: 50px 0;
+    padding: 80px 0;
 	min-height: 100%;
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
 	background: #cedce7;
     background: linear-gradient(to bottom, #cedce7 0%,#596a72 100%); 
+}
+
+.logoText{
+    color: azure;
+    font-size: 25px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -30,10 +35,25 @@ textarea {
     max-width: 280px;
 }
 
+.navbar-inverse {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-color: #080808;
+}
+
+.logo{
+    width: 50px;
+    margin: 10px 30px;
+}
+
 .clearfix::after{
     display: block;
     clear:both;
     content: "";
+}
+
+.start-text{
+    text-align: center;
+    margin: 150px 0;
 }
 
 .box{
@@ -49,6 +69,15 @@ textarea {
 /*Task items style*/
 .task-items{
     margin-left: 300px;
+    padding-top: 10px;
+}
+
+.task-items .fa-plus{
+    margin-top: 10px;
+}
+
+.tool-box label{
+    padding-right: 30px;
 }
 
 .task-items li{
@@ -75,6 +104,20 @@ textarea {
     right: 10px;
     top: 14px;
     display: none;
+}
+
+.task-box{
+    margin-top: 45px;
+}
+
+.task-box hr{
+    margin-left: 35px;
+}
+
+.task-name{
+    float: left;
+    font-size: 20px;
+    margin: 10px 0 0 55px;
 }
 /*End task items style*/
 
@@ -122,7 +165,15 @@ textarea {
 
 .list-items .fa-plus:before{
     vertical-align: sub;
-    margin-left: 8px;
+}
+
+.list-items button{
+    background: none;
+    border: none;
+}
+
+.list-items button:focus{
+    box-shadow: none;
 }
 
 .list-items .inputTextDark{
@@ -133,6 +184,7 @@ textarea {
 .tool-box{
     text-align: right;
     padding: 0 20px;
+    float: right;
 }
 
 .fa{
