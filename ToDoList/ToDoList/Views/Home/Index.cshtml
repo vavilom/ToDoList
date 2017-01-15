@@ -7,12 +7,17 @@
             <ul>
                 <li ng-class="{active: data.selectList == -1}" 
                     ng-click="data.selectList = -1">All</li>
-                <li ng-class="{active: data.selectList == option.Id}" 
-                    ng-repeat="option in data.lists" 
-                    ng-click="data.selectList = option.Id">
-                    {{option.Name}}
+                <li ng-class="{active: data.selectList == list.Id}" 
+                    ng-repeat="list in data.lists" 
+                    ng-click="data.selectList = list.Id">
+                    {{list.Name}}
+                    <i class="fa fa-trash-o fa-lg" ng-click="removeList(list)"></i>
                 </li>
             </ul>
+            <div>
+                <input class="inputTextDark" type="text" ng-model="data.newList.Name" placeholder="Add new list..." />
+                <i class="fa fa-plus fa-2x" aria-hidden="true" ng-click="addList()"></i>
+            </div>
         </div>
         <div class="task-items">
             <ul id="todoList">
@@ -33,7 +38,7 @@
             <h3>New task</h3>
             <form>
                 <div>
-                    <input type="text" ng-model="data.newTask.Name" placeholder="Task name" />
+                    <input class="inputTextDark" type="text" ng-model="data.newTask.Name" placeholder="Task name" />
                 </div>
                 <div>
                     <select ng-model="data.newTask.ListId" class="select-dark">
@@ -43,8 +48,8 @@
                     </select>
                 </div>
             </form>
-            <button ng-click="addTask()">Add</button>
-            <button ng-click="cancelTask()">Cancel</button>
+            <button class="buttonDark" ng-click="addTask()">Add</button>
+            <button class="buttonDark" ng-click="cancelTask()">Cancel</button>
         </div>
     </div>
 </div>

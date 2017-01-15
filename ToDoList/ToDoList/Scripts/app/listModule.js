@@ -24,9 +24,28 @@ app.factory('listService', ['$http', function ($http) {
             method: "POST"
         });
     }
+
     //remove task from list in database
     ListService.removeTask = function (id) {
         var apiUrl = 'api/TaskItems/' + id;
+        return $http({
+            url: apiUrl,
+            method: "DELETE"
+        });
+    }
+
+    //add new list in database
+    ListService.addList = function (list) {
+        return $http({
+            url: 'api/Lists',
+            data: list,
+            method: "POST"
+        });
+    }
+
+    //remove list from database
+    ListService.removeList = function (id) {
+        var apiUrl = 'api/Lists/' + id;
         return $http({
             url: apiUrl,
             method: "DELETE"
@@ -39,8 +58,9 @@ app.controller("listCtrl", function ($scope, listService) {
     //view data
     $scope.data = {
         selectList: -1,
+        showTaskModal: false,
         newTask: {},
-        showTaskModal: false
+        newList: {}
     };
 
     //receive all tasks and lists from server
@@ -81,5 +101,32 @@ app.controller("listCtrl", function ($scope, listService) {
         });
     }
 
+    //add new list
+    $scope.addList = function () {
+        listService.addList($scope.data.newList)
+        .then(function (response) {
+            $scope.data.lists.push(response.data);
+            $scope.data.newList = {};
+        });
+    }
+
+    //remove selected list
+    $scope.removeList = function (item) {
+        listService.removeList(item.Id)
+        .then(function (ans) {
+            //remove child tasks
+            $scope.data.tasks = $scope.data.tasks.filter(function (element, index) {
+                return (element.ListId != item.Id);
+            });
+
+            var index = $scope.data.lists.indexOf(item);
+            $scope.data.lists.splice(index, 1);
+
+            //select menu list all items
+            $scope.data.selectList = -1;
+        });
+    }
+
+    //get from server and add all user items to view
     $scope.initialize();
 });

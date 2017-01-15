@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -12,6 +13,7 @@ using ToDoList.Models;
 
 namespace ToDoList.Controllers
 {
+    [Authorize]
     public class ListsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -54,6 +56,7 @@ namespace ToDoList.Controllers
                 return BadRequest();
             }
 
+            list.ApplicationUserId = User.Identity.GetUserId();
             db.Entry(list).State = EntityState.Modified;
 
             try

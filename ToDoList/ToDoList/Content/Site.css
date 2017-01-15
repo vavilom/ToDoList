@@ -46,17 +46,9 @@ textarea {
     margin: 30px 0;
 }
 
-.list-items{
-    float: left;
-    width: 300px;
-}
-
+/*Task items style*/
 .task-items{
     margin-left: 300px;
-}
-
-.list-items select{
-    margin: 10px;
 }
 
 .task-items li{
@@ -74,10 +66,29 @@ textarea {
     position: relative;
 }
 
-.task-items li i{
+.task-items li:hover .fa-trash-o{
+    display: inline-block;
+}
+
+.task-items li .fa-trash-o{
     position: absolute;
     right: 10px;
     top: 14px;
+    display: none;
+}
+/*End task items style*/
+
+/*List items style*/
+.list-items{
+    float: left;
+    width: 300px;
+}
+
+.list-items li .fa-trash-o{
+    position: absolute;
+    right: 12px;
+    top: 15px;
+    display: none;
 }
 
 .list-items ul{
@@ -89,19 +100,35 @@ textarea {
 }
 
 .list-items li{
+    position: relative;
     padding: 12px 10px 12px 30px;
     list-style: none;
     color: #A4A4A4;
     cursor: pointer;
 }
 
+.list-items li:hover .fa-trash-o{
+    display: inline-block;
+}
+
 .list-items li:hover{
-    background-color: antiquewhite;
+    background-color: #A4A4A4;
+    color: #cedce7;
 }
 
 .list-items .active{
     background: rgba(0, 0, 0, 0.5);
 }
+
+.list-items .fa-plus:before{
+    vertical-align: sub;
+    margin-left: 8px;
+}
+
+.list-items .inputTextDark{
+    margin-left: 10px;
+}
+/*End list items style*/
 
 .tool-box{
     text-align: right;
@@ -117,7 +144,7 @@ textarea {
     transition: 1s;
 }
 
-/*style modal*/
+/*Modal add new list style*/
 
 .todo-modal {
     position: relative;
@@ -147,7 +174,7 @@ textarea {
     z-index: 500;
 }
 
-.todo-modal input[type="text"]{
+.inputTextDark{
     width: 80%;
     height: 48px;
     border: 1px solid rgba(255,255,255,.4);
@@ -161,14 +188,14 @@ textarea {
     background: #cedce7; 
 }
 
-.todo-modal input[type="text"]:focus { 
+.inputTextDark:focus { 
     background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 5px 1px rgba(255,255,255,.5);
     overflow: hidden; 
     color: #fff;
 }
 
-.todo-modal button{
+.buttonDark{
     height: 44px;
     border-radius: 4px;
     border: 1px solid #253737;
@@ -201,3 +228,5 @@ textarea {
     color:#A4A4A4;
     text-shadow:0 1px 0 rgba(0,0,0,0.4);
 }
+
+/*End modal style*/
