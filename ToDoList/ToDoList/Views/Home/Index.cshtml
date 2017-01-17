@@ -55,30 +55,7 @@
         </div>
         <div ng-cloak>
             <div class="backmodal" ng-show="data.showTaskModal">
-                <div class="todo-modal">
-                    <h3>New task</h3>
-                    <form name="taskForm" ng-submit="addTask(taskForm.$valid)" novalidate>
-                        <div class="val-group" ng-class="{ 'form-error': taskForm.name.$touched && taskForm.name.$invalid }">
-                            <input name="name" class="inputTextDark" type="text" 
-                                   ng-model="data.newTask.Name" placeholder="Task name" required />
-                            <div ng-messages="taskForm.name.$error">
-                                <p ng-message="required" ng-if="taskForm.name.$touched">Task name is required</p>
-                            </div>
-                        </div>
-                        <div class="val-group" ng-class="{ 'form-error': taskForm.listid.$touched && taskForm.listid.$invalid }">
-                            <select name="listid" ng-model="data.newTask.ListId" class="select-dark" required>
-                                <option value="{{option.Id}}" ng-repeat="option in data.lists">
-                                    {{option.Name}}
-                                </option>
-                            </select>
-                            <div ng-messages="taskForm.listid.$error">
-                                <p ng-message="required" ng-if="taskForm.listid.$touched">Select list is required</p>
-                            </div>
-                        </div>
-                        <input type="submit" class="buttonDark" value="Add" ng-disabled="taskForm.$invalid">
-                        <button class="buttonDark" ng-click="cancelTask()">Cancel</button>
-                    </form>
-                </div>
+                <new-task></new-task>
             </div>
         </div>
     </div>
@@ -88,7 +65,34 @@ else
     <h1 class="start-text">Please register or login</h1>
 }
 
-
+@section Scripts{
+    <script type="text/template" id="templateNewTask">
+        <div class="todo-modal">
+            <h3>New task</h3>
+            <form name="taskForm" ng-submit="addTask(taskForm.$valid)" novalidate>
+                <div class="val-group" ng-class="{ 'form-error': taskForm.name.$touched && taskForm.name.$invalid }">
+                    <input name="name" class="inputTextDark" type="text"
+                           ng-model="data.newTask.Name" placeholder="Task name" required />
+                    <div ng-messages="taskForm.name.$error">
+                        <p ng-message="required" ng-if="taskForm.name.$touched">Task name is required</p>
+                    </div>
+                </div>
+                <div class="val-group" ng-class="{ 'form-error': taskForm.listid.$touched && taskForm.listid.$invalid }">
+                    <select name="listid" ng-model="data.newTask.ListId" class="select-dark" required>
+                        <option value="{{option.Id}}" ng-repeat="option in data.lists">
+                            {{option.Name}}
+                        </option>
+                    </select>
+                    <div ng-messages="taskForm.listid.$error">
+                        <p ng-message="required" ng-if="taskForm.listid.$touched">Select list is required</p>
+                    </div>
+                </div>
+                <input type="submit" class="buttonDark" value="Add" ng-disabled="taskForm.$invalid">
+                <button class="buttonDark" ng-click="cancelTask()">Cancel</button>
+            </form>
+        </div>
+    </script>
+    }
 
 
 

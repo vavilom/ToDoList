@@ -171,3 +171,11 @@ app.controller("listCtrl", function ($scope, listService) {
     //get from server and add all user items to view
     $scope.initialize();
 });
+app.directive("newTask", function () {
+    return {
+        restrict: "AE",
+        template: function () {
+            return angular.element(document.querySelector("#templateNewTask")).html();
+        }
+    }
+});
