@@ -22,7 +22,7 @@
                     <form name="listForm" ng-submit="addList(listForm.$valid)" novalidate>
                         <input class="inputTextDark" type="text" ng-model="data.newList.Name" placeholder="Add new list..." required />
                         <button type="submit">
-                            <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                            <i class="fa fa-plus fa-2x" aria-hidden="true" ng-disabled="listForm.$invalid"></i>
                         </button>
                     </form>
                 </div>
@@ -58,17 +58,24 @@
                 <div class="todo-modal">
                     <h3>New task</h3>
                     <form name="taskForm" ng-submit="addTask(taskForm.$valid)" novalidate>
-                        <div>
-                            <input class="inputTextDark" type="text" ng-model="data.newTask.Name" placeholder="Task name" required />
+                        <div class="val-group" ng-class="{ 'form-error': taskForm.name.$touched && taskForm.name.$invalid }">
+                            <input name="name" class="inputTextDark" type="text" 
+                                   ng-model="data.newTask.Name" placeholder="Task name" required />
+                            <div ng-messages="taskForm.name.$error">
+                                <p ng-message="required" ng-if="taskForm.name.$touched">Task name is required</p>
+                            </div>
                         </div>
-                        <div>
-                            <select ng-model="data.newTask.ListId" class="select-dark" required>
+                        <div class="val-group" ng-class="{ 'form-error': taskForm.listid.$touched && taskForm.listid.$invalid }">
+                            <select name="listid" ng-model="data.newTask.ListId" class="select-dark" required>
                                 <option value="{{option.Id}}" ng-repeat="option in data.lists">
                                     {{option.Name}}
                                 </option>
                             </select>
+                            <div ng-messages="taskForm.listid.$error">
+                                <p ng-message="required" ng-if="taskForm.listid.$touched">Select list is required</p>
+                            </div>
                         </div>
-                        <input type="submit" class="buttonDark" value="Add">
+                        <input type="submit" class="buttonDark" value="Add" ng-disabled="taskForm.$invalid">
                         <button class="buttonDark" ng-click="cancelTask()">Cancel</button>
                     </form>
                 </div>

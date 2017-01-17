@@ -1,4 +1,4 @@
-﻿var app = angular.module("listModule", []);
+﻿var app = angular.module("listModule", ['ngMessages']);
 app.factory('listService', ['$http', function ($http) {
     //send text on the server, and get encrypt/decrypt result
     var ListService = {};
@@ -101,6 +101,7 @@ app.controller("listCtrl", function ($scope, listService) {
                 $scope.data.tasks.push(response.data);
                 $scope.data.newTask = {};
                 $scope.data.showTaskModal = false;
+                $scope.taskForm.$setUntouched();
             });
         }
     }
@@ -109,6 +110,7 @@ app.controller("listCtrl", function ($scope, listService) {
     $scope.cancelTask = function () {
         $scope.data.newTask = {};
         $scope.data.showTaskModal = false;
+        $scope.taskForm.$setUntouched();
     }
 
     //remove selected task
